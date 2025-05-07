@@ -2,7 +2,9 @@
 
 ### context:
 
-I made a python module with the curses library because I felt like there were no high-level options
+I made a python module using curses
+
+curses is a python library for creating non-gui non-terminal interfaces
 
 if you're new to programming, high level is typically easier than low level because low level is closer to hardware meaning memmory management, memmory pointers, unreadable syntax, take assembly you need to know if your cpu uses intel or amd syntax, if your cpu is x86 x64 or x86_64 and thats just to know what version of assembly you need to learn you also need to know your os if you're going to use syscalls which is a necesity, you need to know if your os is 64 bit or 32 bit because 64 bit programs run better on 64 bit oses but can't run at all on 32 bit oses and yeah this is compilcated not to mention in asssembly you need to know memmory adresses, like mess up one number you accidentally messed up your kernel, oh wait you don't know what a kernel is? it basically tells your computer 'hey theres an operating system here' which is different from a boot sector which tells your computer 'hey when you turn on you can boot into this drive' and you get the point oh and you also need to know what assembler you're using, an assembler translates assembly to machine code
 
@@ -86,9 +88,9 @@ this how to guide will show you how to create a menu where the user can select f
 # steps:
 
 1. install python
-click customize install
+click customize install(windows)
 
-enable the options below(windows only)
+enable the options below
 
 install python for all users
 
@@ -202,22 +204,59 @@ pip install tuilib
 ```
 
 on linux
+save the following script as script.sh
+
 ```bash
-python3 -m venv e
+#!/bin/bash
+
+# Check if both arguments are provided
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <folder_name> <folder_exists_flag>"
+    echo "Note: <folder_exists_flag> should be 'false' if the folder doesn't exist yet"
+    exit 1
+fi
+
+folder_name="$1"
+folder_exists="$2"
+
+# Create folder if needed
+if [ "$folder_exists" = "false" ]; then
+    mkdir -p "$folder_name"
+else
+    # Verify folder exists if flag is not false
+    if [ ! -d "$folder_name" ]; then
+        echo "Error: Folder '$folder_name' does not exist"
+        exit 1
+    fi
+fi
+
+# Create virtual environment
+python -m venv "$folder_name"
+
+# Install tuilib using venv's pip
+"$folder_name/bin/pip" install tuilib
+
+echo "Virtual environment created and tuilib installed successfully!"
 ```
-replace e with the path to your venv
 
-then run
-
+run 
 ```bash
-source e
+chmod +x ./script.sh
 ```
-once again replace e with the path to your venv
 
-then run:
+run
+```bash
+./script.sh
+```
+
+with the folder as the first argument and false as the second only if you haven't made the folder yet
+
+make sure the directory is empty
+
+eg:
 
 ```bash
-python3 -m pip install -U tuilib 
+./script.sh /path/to/your/folder true
 ```
 
 4. make sure tuilib in one of the following directories(folders):
